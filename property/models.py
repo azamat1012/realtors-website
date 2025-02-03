@@ -71,14 +71,14 @@ class Owner(models.Model):
     normalized_phone = PhoneNumberField(
         'Нормализованный номер владельца', blank=True, null=True)
     flat = models.ManyToManyField(
-        Flat, related_name='flat_owners', verbose_name='Квартиры в собственности')
+        Flat, related_name='owners', verbose_name='Квартиры в собственности')
 
     def __str__(self):
         return self.full_name
 
 class Complaint(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="Кто жаловался", related_name='feedback')
+        User, on_delete=models.CASCADE, verbose_name="Кто жаловался", related_name='complainant')
     flat = models.ForeignKey(
         Flat, on_delete=models.CASCADE,  verbose_name="Квартира, на которую пожаловались",related_name='complaints')
 
@@ -87,8 +87,3 @@ class Complaint(models.Model):
     def __str__(self):
         return f"Жалоба от {self.user} на квартиру {self.flat}"
     
-
-# class PropertyOwnerOwnedFlats(models.Model):
-#     flat = models.ForeignKey(Flat, on_delete=models.CASCADE)
-#     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True, null=True)
