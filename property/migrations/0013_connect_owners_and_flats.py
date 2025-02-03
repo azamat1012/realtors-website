@@ -1,5 +1,6 @@
 from django.db import migrations
 
+
 def connect_owners_and_flats(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
@@ -8,10 +9,10 @@ def connect_owners_and_flats(apps, schema_editor):
         if flat.owners.exists():
             continue
         owner, created = Owner.objects.get_or_create(
-            name='Неизвестный владелец',
+            full_name='Неизвестно',
             defaults={
-                'phonenumbers': 'Нет данных',
-                'pure_phone': None,
+                'phone_number': 'Неизвестно',
+                'normalized_phone': None,
             }
         )
         flat.owners.add(owner)
