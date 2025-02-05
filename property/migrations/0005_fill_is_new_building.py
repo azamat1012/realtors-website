@@ -6,14 +6,10 @@ from property.models import Flat
 
 def fill_is_new_building(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    flats = Flat.objects.all()
-
-    for flat in flats:
-        if flat.construction_year and flat.construction_year >= 2015:
-            flat.is_new_building = True
-        else:
-            flat.is_new_building = False
-        flat.save()
+    Flat.objects.filter(construction_year__gte=2015).update(
+        is_new_building=True)
+    Flat.objects.filter(construction_year__lt=2015).update(
+        is_new_building=False)
 
 
 class Migration(migrations.Migration):
@@ -25,3 +21,4 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(fill_is_new_building)
     ]
+
