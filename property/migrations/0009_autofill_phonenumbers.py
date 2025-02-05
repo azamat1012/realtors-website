@@ -6,7 +6,7 @@ from phonenumbers.phonenumberutil import NumberParseException
 def autofill_phonenumbers(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
 
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.iterator():
         if flat.owners_phonenumber:
             try:
                 # Парсим номер
